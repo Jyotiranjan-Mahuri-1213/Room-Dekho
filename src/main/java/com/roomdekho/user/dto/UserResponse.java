@@ -1,42 +1,39 @@
-package com.roomdekho.user;
+package com.roomdekho.user.dto;
 
-import jakarta.persistence.*;
 
-@Entity
-@Table(name = "users")
-public class User {
+public class UserResponse {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 
-    @Column(unique = true, nullable = false)
     private String email;
-
-    private String password;
 
     private String phone;
 
     private String role;
 
 
+    public UserResponse(
+            Long id,
+            String name,
+            String email,
+            String phone,
+            String role
+    ){
 
-    public User() {
-    }
-
-
-
-    public User(String name, String email, String password, String phone, String role) {
+        this.id = id;
         this.name = name;
         this.email = email;
-        this.password = password;
         this.phone = phone;
         this.role = role;
+
     }
 
 
+    public UserResponse(){
+
+    }
 
 
     public Long getId() {
@@ -65,20 +62,7 @@ public class User {
 
 
     public void setEmail(String email) {
-
         this.email = email;
-    }
-
-
-    public String getPassword() {
-
-        return password;
-    }
-
-
-    public void setPassword(String password) {
-
-        this.password = password;
     }
 
 
@@ -100,4 +84,5 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
+
 }

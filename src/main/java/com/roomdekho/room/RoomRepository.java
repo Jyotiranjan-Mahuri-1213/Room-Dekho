@@ -1,4 +1,7 @@
 package com.roomdekho.room;
 
-public class RoomRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface RoomRepository extends JpaRepository<Room, Long> {
+
 }

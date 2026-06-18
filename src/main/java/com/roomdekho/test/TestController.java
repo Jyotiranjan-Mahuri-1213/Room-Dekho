@@ -1,0 +1,17 @@
+package com.roomdekho.test;
+
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/test")
+public class TestController {
+
+
+    @GetMapping
+    public String test(){
+
+        return "JWT working successfully";
+
+    }
+
+}
