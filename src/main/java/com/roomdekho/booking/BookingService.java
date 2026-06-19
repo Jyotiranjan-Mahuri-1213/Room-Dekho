@@ -142,4 +142,40 @@ public class BookingService {
 
     }
 
+    public List<BookingResponseDTO> getOwnerBookings(String email){
+
+        return bookingRepository
+                .findOwnerBookings(email)
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+
+    }
+
+    public BookingResponseDTO approveBooking(Long id, String email){
+
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+
+        booking.setStatus(BookingStatus.APPROVED);
+
+        Booking saved = bookingRepository.save(booking);
+
+        return mapToResponse(saved);
+    }
+
+
+
+    public BookingResponseDTO rejectBooking(Long id, String email){
+
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+
+        booking.setStatus(BookingStatus.REJECTED);
+
+        Booking saved = bookingRepository.save(booking);
+
+        return mapToResponse(saved);
+    }
+
 }

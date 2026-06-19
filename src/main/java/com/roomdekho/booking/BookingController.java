@@ -45,7 +45,20 @@ public class BookingController {
 
     }
 
+    @GetMapping("/owner")
+    public List<BookingResponseDTO> getOwnerBookings(){
 
+        String email =
+                SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getPrincipal()
+                        .toString();
+
+
+        return bookingService.getOwnerBookings(email);
+
+    }
 
 
     // Get logged in user's bookings
@@ -85,6 +98,42 @@ public class BookingController {
 
 
         return bookingService.cancelBooking(id,email);
+
+    }
+
+    @PutMapping("/{id}/approve")
+    public BookingResponseDTO approveBooking(
+            @PathVariable Long id
+    ){
+
+        String email =
+                SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getPrincipal()
+                        .toString();
+
+
+        return bookingService.approveBooking(id,email);
+
+    }
+
+
+
+    @PutMapping("/{id}/reject")
+    public BookingResponseDTO rejectBooking(
+            @PathVariable Long id
+    ){
+
+        String email =
+                SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getPrincipal()
+                        .toString();
+
+
+        return bookingService.rejectBooking(id,email);
 
     }
 
