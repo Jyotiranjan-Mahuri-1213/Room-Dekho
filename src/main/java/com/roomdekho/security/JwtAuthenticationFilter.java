@@ -13,7 +13,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.roomdekho.jwt.JwtService;
 
 import java.io.IOException;
-
+import java.util.Collections;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -62,7 +62,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 new UsernamePasswordAuthenticationToken(
                         email,
                         null,
-                        null
+                        Collections.emptyList()
                 );
 
 
