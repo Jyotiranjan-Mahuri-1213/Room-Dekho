@@ -1,12 +1,11 @@
-package com.roomdekho.favourite;
+package com.roomdekho.review;
 
 
 import jakarta.persistence.*;
 
-
 @Entity
-@Table(name="favourites")
-public class Favourite {
+@Table(name="reviews")
+public class Review {
 
 
     @Id
@@ -19,6 +18,11 @@ public class Favourite {
 
     private String userEmail;
 
+
+    private int rating;
+
+
+    private String comment;
 
 
     public Long getId() {
@@ -48,6 +52,26 @@ public class Favourite {
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
+    }
+
+
+    public int getRating() {
+        return rating;
+    }
+
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+
+    public String getComment() {
+        return comment;
+    }
+
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
 }
