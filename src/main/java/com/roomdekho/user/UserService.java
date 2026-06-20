@@ -41,7 +41,7 @@ public class UserService {
             );
 
         }
-
+        user.setRole("USER");
 
         user.setPassword(
                 passwordEncoder.encode(user.getPassword())
@@ -74,7 +74,7 @@ public class UserService {
         }
 
 
-        String token = jwtService.generateToken(user.getEmail());
+        String token = jwtService.generateToken(user.getEmail(),"USER");
 
 
         UserResponse userResponse =
