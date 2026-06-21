@@ -13,10 +13,12 @@ import java.util.List;
 @Service
 public class AdminService {
 
+
     private final AdminRepository adminRepository;
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
     private final JwtService jwtService;
+
 
     public AdminService(AdminRepository adminRepository,
                         UserRepository userRepository,
@@ -27,6 +29,7 @@ public class AdminService {
         this.userRepository = userRepository;
         this.roomRepository = roomRepository;
         this.jwtService = jwtService;
+
     }
 
 
@@ -34,21 +37,29 @@ public class AdminService {
 
         return adminRepository.findByEmail(email)
                 .filter(admin -> admin.getPassword().equals(password))
-                .map(admin -> jwtService.generateToken(admin.getEmail(), "ADMIN"))
+                .map(admin -> jwtService.generateToken(
+                        admin.getEmail(),
+                        "ADMIN"
+                ))
                 .orElse(null);
     }
 
-    //  users
+
+
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
-    // rooms
+
     public List<Room> getAllRooms() {
         return roomRepository.findAll();
     }
 
+
     public void deleteRoom(Long roomId) {
+
         roomRepository.deleteById(roomId);
+
     }
+
 }

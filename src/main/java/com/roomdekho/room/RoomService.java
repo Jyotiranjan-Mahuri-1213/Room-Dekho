@@ -92,6 +92,16 @@ public class RoomService {
                 .toList();
     }
 
+    public RoomResponseDTO getRoomById(Long id){
+
+        Room room = roomRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Room not found")
+                );
+
+        return mapToResponse(room);
+    }
+
     public List<RoomResponseDTO> filterByRent(double min, double max){
 
         return roomRepository.findByRentBetween(min, max)

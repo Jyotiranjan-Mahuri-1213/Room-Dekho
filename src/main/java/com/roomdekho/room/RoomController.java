@@ -43,6 +43,13 @@ public class RoomController {
         return roomService.getMyRooms(email);
     }
 
+    @GetMapping("/{id}")
+    public RoomResponseDTO getRoomById(
+            @PathVariable Long id
+    ){
+        return roomService.getRoomById(id);
+    }
+
     @DeleteMapping("/{id}")
     public String deleteRoom(@PathVariable Long id){
         String email = SecurityContextHolder.getContext()
