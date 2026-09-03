@@ -3,6 +3,7 @@ package com.roomdekho.admin;
 
 import com.roomdekho.admin.dto.AdminLoginRequestDTO;
 import com.roomdekho.admin.dto.AdminLoginResponseDTO;
+import com.roomdekho.admin.dto.AdminStatsDTO;
 import com.roomdekho.jwt.JwtService;
 import com.roomdekho.user.User;
 import com.roomdekho.user.UserRepository;
@@ -51,6 +52,18 @@ public class AdminService {
 
     }
 
+    public AdminStatsDTO getStats() {
+
+        long users = userRepository.count();
+        long rooms = roomRepository.count();
+        long bookings = bookingRepository.count();
+
+        return new AdminStatsDTO(
+                users,
+                rooms,
+                bookings
+        );
+    }
 
 
     // ADMIN LOGIN
@@ -105,13 +118,7 @@ public class AdminService {
     }
 
 
-
-
-
-
-
     public String deleteUser(Long id){
-
 
         User user =
                 userRepository.findById(id)
@@ -124,11 +131,9 @@ public class AdminService {
 
         userRepository.delete(user);
 
-
         return "User deleted successfully";
 
     }
-
 
 
     public List<Room> getAllRooms(){
@@ -137,13 +142,7 @@ public class AdminService {
 
     }
 
-
-
-
-
     public String deleteRoom(Long id){
-
-
         Room room =
                 roomRepository.findById(id)
                         .orElseThrow(
@@ -152,20 +151,14 @@ public class AdminService {
                                 )
                         );
 
-
         roomRepository.delete(room);
-
-
         return "Room deleted successfully";
 
     }
 
-
     public List<Booking> getAllBookings(){
 
         return bookingRepository.findAll();
-
     }
-
 
 }

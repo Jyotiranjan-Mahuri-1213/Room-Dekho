@@ -50,7 +50,6 @@ public class AdminLoginResponseDTO {
     }
 
 
-
     public String getEmail() {
         return email;
     }

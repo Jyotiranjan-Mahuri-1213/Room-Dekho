@@ -20,13 +20,48 @@ public class UserController {
     // REGISTER
     @PostMapping("/register")
     public UserResponse register(@RequestBody User users) {
+
         return userService.registerUser(users);
     }
 
-    // LOGIN
+    // login
     @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest request) {
+
         return userService.loginUser(request);
+    }
+    @PostMapping("/forgot-password")
+    public String forgotPassword(
+            @RequestBody ForgotPasswordRequest request) {
+
+        userService.sendOtp(request.getEmail());
+
+        return "OTP sent successfully";
+    }
+
+    @PostMapping("/verify-otp")
+    public String verifyOtp(
+            @RequestBody VerifyOtpRequest request) {
+
+        userService.verifyOtp(
+                request.getEmail(),
+                request.getOtp()
+        );
+
+        return "OTP verified successfully";
+    }
+
+    @PostMapping("/reset-password")
+    public String resetPassword(
+            @RequestBody ResetPasswordRequest request) {
+
+        userService.resetPassword(
+                request.getEmail(),
+                request.getNewPassword(),
+                request.getConfirmPassword()
+        );
+
+        return "Password reset successfully";
     }
 
     // GET CURRENT USER

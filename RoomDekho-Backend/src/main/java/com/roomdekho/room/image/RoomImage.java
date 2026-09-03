@@ -1,5 +1,6 @@
 package com.roomdekho.room.image;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.roomdekho.room.Room;
 import jakarta.persistence.*;
 
@@ -13,11 +14,13 @@ public class RoomImage {
 
     private String imageUrl;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
     private Room room;
 
-    public RoomImage() {}
+    public RoomImage() {
+    }
 
     public Long getId() {
         return id;

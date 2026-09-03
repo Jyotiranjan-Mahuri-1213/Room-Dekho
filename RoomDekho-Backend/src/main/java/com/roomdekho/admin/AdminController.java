@@ -1,6 +1,6 @@
 package com.roomdekho.admin;
 
-
+import com.roomdekho.admin.dto.AdminStatsDTO;
 import com.roomdekho.admin.dto.AdminLoginRequestDTO;
 import com.roomdekho.admin.dto.AdminLoginResponseDTO;
 import com.roomdekho.user.User;
@@ -99,6 +99,13 @@ public class AdminController {
     public List<Booking> getAllBookings(){
 
         return adminService.getAllBookings();
+
+    }
+
+    @GetMapping("/stats")
+    public AdminStatsDTO getStats() {
+
+        return adminService.getStats();
 
     }
 

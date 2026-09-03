@@ -45,10 +45,17 @@ public class OwnerRequest {
 
     // Room Images (URL for now)
 
+    // Room Images
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String image1;
 
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String image2;
 
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String image3;
 
 
