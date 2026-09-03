@@ -189,26 +189,18 @@ export default function Rooms(){
                 {/* IMAGE */}
 
                 <img
-
-                src={
-                    room.images?.[0]
-                    ||
-                    "https://images.unsplash.com/photo-1560185008-b033106af5c3"
-                }
-
-                className="
-                w-full
-                h-56
-                object-cover
-                "
-
-                />
-
-
-
-
-
-
+    src={
+        room.images?.[0]?.imageUrl
+        ||
+        "https://images.unsplash.com/photo-1560185008-b033106af5c3"
+    }
+    className="
+    w-full
+    h-56
+    object-cover
+    "
+    alt={room.title}
+/>
 
                 <div className="
                 p-6
@@ -237,10 +229,6 @@ export default function Rooms(){
 
                     </p>
 
-
-
-
-
                     <p className="
                     text-indigo-600
                     font-bold
@@ -252,10 +240,6 @@ export default function Rooms(){
 
                     </p>
 
-
-
-
-
                     <p className="
                     text-sm
                     text-gray-500
@@ -265,10 +249,6 @@ export default function Rooms(){
                     Type : {room.roomType}
 
                     </p>
-
-
-
-
 
                     <button
 
@@ -292,27 +272,15 @@ export default function Rooms(){
 
                     </button>
 
-
-
                 </div>
 
-
-
-
             </div>
-
 
             ))
 
         }
 
-
-
         </div>
-
-
-
-
 
     </div>
 

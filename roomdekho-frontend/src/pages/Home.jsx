@@ -148,7 +148,7 @@ export default function Home() {
             text-gray-600
             max-w-3xl mx-auto
           ">
-            RoomDekho is a complete room rental management system built using React and Spring Boot.
+            RoomDekho is a complete room rental management system built by RoomDekho Communitys.
             It connects users, owners, and admins in one platform.
           </p>
 

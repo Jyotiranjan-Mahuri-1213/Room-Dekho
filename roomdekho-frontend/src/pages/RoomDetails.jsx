@@ -1,37 +1,72 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../api/axios";
+import LocationMap from "../components/LocationMap";
 
 export default function RoomDetails() {
 
     const { id } = useParams();
     const navigate = useNavigate();
 
-    const [room, setRoom] = useState(null);
-    const [currentImage, setCurrentImage] = useState(0);
+   const [room, setRoom] = useState(null);
+const [currentImage, setCurrentImage] = useState(0);
+const [coordinates, setCoordinates] = useState(null);
 
 
     useEffect(() => {
         loadRoom();
     }, []);
 
+        const loadRoom = async () => {
 
-    const loadRoom = async () => {
+    try {
 
-        try {
+        const res = await api.get(`/rooms/${id}`);
 
-            const res = await api.get(`/rooms/${id}`);
+        setRoom(res.data);
 
-            setRoom(res.data);
-
-        } catch(err){
-
-            console.log("Room loading error",err);
-
+        if (res.data.location) {
+            getCoordinates(res.data.location);
         }
 
-    };
+    } catch (err) {
 
+        console.log("Room loading error", err);
+
+    }
+
+};
+
+
+
+    const getCoordinates = async (location) => {
+    try {
+        const response = await fetch(
+            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+                location
+            )}&limit=1`,
+            {
+                headers: {
+                    "Accept-Language": "en"
+                }
+            }
+        );
+
+        const data = await response.json();
+
+        if (data.length > 0) {
+            setCoordinates({
+                latitude: parseFloat(data[0].lat),
+                longitude: parseFloat(data[0].lon)
+            });
+        } else {
+            console.log("Location not found:", location);
+        }
+
+    } catch (error) {
+        console.log("Location search error:", error);
+    }
+};
 
     // AUTO SLIDER
 
@@ -264,7 +299,13 @@ mt-3
 
 </p>
 
-
+{coordinates && (
+    <LocationMap
+        latitude={coordinates.latitude}
+        longitude={coordinates.longitude}
+        location={room.location}
+    />
+)}
 
 <h2 className="
 text-3xl

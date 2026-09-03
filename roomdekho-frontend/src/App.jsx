@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-
+import ForgotPassword from "./pages/ForgotPassword";
 
 import UserDashboard from "./pages/user/UserDashboard";
 import OwnerDashboard from "./pages/owner/OwnerDashboard";
@@ -47,7 +47,10 @@ function App() {
           element={<Login />} 
         />
 
-
+            <Route
+          path="/forgot-password"
+          element={<ForgotPassword />}
+      />
         <Route 
           path="/register" 
           element={<Register />} 
