@@ -150,6 +150,7 @@ public class RoomService {
         dto.setRent(room.getRent());
         dto.setDescription(room.getDescription());
         dto.setOwnerEmail(room.getOwnerEmail());
+        dto.setRoomType(room.getRoomType());
         dto.setAverageRating(
                 reviewRepository.getAverageRating(room.getId()) != null
                         ? reviewRepository.getAverageRating(room.getId())
