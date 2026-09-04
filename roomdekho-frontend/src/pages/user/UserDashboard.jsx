@@ -19,46 +19,38 @@ export default function UserDashboard() {
   const user = JSON.parse(localStorage.getItem("user"));
 
   // ================= LOAD ROOMS =================
-  const loadRooms = async () => {
+ const loadRooms = async () => {
     try {
 
-      let res;
+        const params = {};
 
-      // CASE 1: ONLY LOCATION SEARCH
-      if (filters.location && !filters.minRent && !filters.maxRent) {
-        res = await api.get("/rooms/search", {
-          params: { location: filters.location }
+        if (filters.location.trim()) {
+            params.location = filters.location;
+        }
+
+        if (filters.roomType) {
+            params.roomType = filters.roomType;
+        }
+
+        if (filters.minRent) {
+            params.minRent = filters.minRent;
+        }
+
+        if (filters.maxRent) {
+            params.maxRent = filters.maxRent;
+        }
+
+        const res = await api.get("/rooms/search/filter", {
+            params
         });
-      }
 
-      // CASE 2: RENT FILTER ONLY
-      else if (filters.minRent || filters.maxRent) {
-        res = await api.get("/rooms/filter", {
-          params: {
-            min: filters.minRent || 0,
-            max: filters.maxRent || 999999
-          }
-        });
-      }
-
-      // CASE 3: DEFAULT (ALL ROOMS)
-      else {
-        res = await api.get("/rooms");
-      }
-
-      let data = res.data;
-
-      // LOCAL FILTER FOR ROOM TYPE (backend missing this filter)
-      if (filters.roomType) {
-        data = data.filter(r => r.roomType === filters.roomType);
-      }
-
-      setRooms(Array.isArray(data) ? data : []);
+        setRooms(Array.isArray(res.data) ? res.data : []);
 
     } catch (err) {
-      console.log(err);
+        console.log("Search error:", err);
+        setRooms([]);
     }
-  };
+};
 
   useEffect(() => {
     loadRooms();
@@ -144,22 +136,24 @@ export default function UserDashboard() {
               onChange={(e) =>
                 setFilters({ ...filters, location: e.target.value })
               }
-              className="p-3 border rounded-xl"
+             className="p-3 border rounded-xl text-gray-900 bg-white"
             />
 
-            <select
-              value={filters.roomType}
-              onChange={(e) =>
-                setFilters({ ...filters, roomType: e.target.value })
-              }
-              className="p-3 border rounded-xl"
-            >
-              <option value="">All Types</option>
-              <option value="SINGLE">SINGLE</option>
-              <option value="DOUBLE">DOUBLE</option>
-              <option value="FLAT">FLAT</option>
-              <option value="PG">PG</option>
-            </select>
+                                <select
+                    value={filters.roomType}
+                    onChange={(e) =>
+                        setFilters({ ...filters, roomType: e.target.value })
+                    }
+                    className="p-3 border rounded-xl text-gray-900 bg-white"
+                >
+                    <option value="">All Types</option>
+                    <option value="Single Room">Single Room</option>
+                    <option value="PG">PG</option>
+                    <option value="1BHK">1BHK</option>
+                    <option value="2BHK">2BHK</option>
+                    <option value="Shared Room">Shared Room</option>
+                    <option value="Studio">Studio</option>
+                </select>
 
             <input
               type="number"
@@ -168,7 +162,7 @@ export default function UserDashboard() {
               onChange={(e) =>
                 setFilters({ ...filters, minRent: e.target.value })
               }
-              className="p-3 border rounded-xl"
+              className="p-3 border rounded-xl text-gray-900 bg-white"
             />
 
             <input
@@ -178,7 +172,7 @@ export default function UserDashboard() {
               onChange={(e) =>
                 setFilters({ ...filters, maxRent: e.target.value })
               }
-              className="p-3 border rounded-xl"
+              className="p-3 border rounded-xl text-gray-900 bg-white"
             />
 
           </div>
