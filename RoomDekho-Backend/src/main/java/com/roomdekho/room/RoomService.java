@@ -132,7 +132,9 @@ public class RoomService {
         return roomRepository.findAll()
                 .stream()
                 .filter(r -> location == null || r.getLocation().toLowerCase().contains(location.toLowerCase()))
-                .filter(r -> roomType == null || r.getRoomType().equalsIgnoreCase(roomType))
+                .filter(r -> roomType == null ||
+                        (r.getRoomType() != null &&
+                                r.getRoomType().equalsIgnoreCase(roomType)))
                 .filter(r -> minRent == null || r.getRent() >= minRent)
                 .filter(r -> maxRent == null || r.getRent() <= maxRent)
                 .map(this::mapToDTO)
