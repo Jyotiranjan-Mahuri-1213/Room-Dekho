@@ -1,50 +1,75 @@
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import api from "../../api/axios";
 
 export default function PaymentPage() {
 
   const { id } = useParams(); // bookingId
   const navigate = useNavigate();
+    const location = useLocation();
+
+const amount = location.state?.amount;
 
   const [paymentMethod, setPaymentMethod] = useState("UPI");
-  const [amount, setAmount] = useState("");
+    const payNow = async () => {
 
-const payNow = async () => {
+  try {
 
-    try{
+    // 1. Create Razorpay order from backend
+    const orderResponse = await api.post(
+      `/payments/create-order?bookingId=${id}&amount=${amount}`
+    );
 
-        await api.post(`/bookings/payment/${id}`,{
+    const order = orderResponse.data;
 
-            paymentMethod,
+    console.log("Razorpay order:", order);
 
-            amount:Number(amount),
+    // 2. Open Razorpay Checkout
 
-            transactionId:"TXN"+Date.now()
+    console.log(
+    "Frontend Razorpay Key:",
+    import.meta.env.VITE_RAZORPAY_KEY_ID
+);
+    const options = {
+      key: import.meta.env.VITE_RAZORPAY_KEY_ID,
 
-        });
+      amount: order.amount,
 
+      currency: order.currency,
 
-        alert("Payment Successful");
+      name: "RoomDekho",
 
+      description: "Room Booking Payment",
 
-        navigate("/my-bookings");
+      order_id: order.id,
 
+      handler: function (response) {
 
-    }
-    catch(err){
+        console.log("Payment response:", response);
 
-        console.log(
-            "Payment error",
-            err
-        );
+      },
 
-        alert("Payment failed");
+      theme: {
+        color: "#4f46e5"
+      }
+    };
 
-    }
+  console.log("Razorpay constructor:", window.Razorpay);
+console.log("Razorpay options:", options);
+
+const razorpay = new window.Razorpay(options);
+
+razorpay.open();
+
+  } catch (err) {
+
+    console.log("Payment error:", err);
+
+    alert("Unable to start payment");
+
+  }
 
 };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-indigo-600">
 
@@ -64,12 +89,9 @@ const payNow = async () => {
           <option>CASH</option>
         </select>
 
-        <input
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          placeholder="Amount"
-          className="w-full p-3 border rounded-xl mb-4"
-        />
+                <div className="w-full p-3 border rounded-xl mb-4 bg-gray-100">
+            Amount: ₹{amount}
+          </div>
 
         <button
           onClick={payNow}

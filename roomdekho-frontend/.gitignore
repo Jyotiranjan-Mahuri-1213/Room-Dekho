@@ -62,3 +62,5 @@ build/
 
 ### Logs ###
 *.log
+.env
+.env.local

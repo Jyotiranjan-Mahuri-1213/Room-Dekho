@@ -128,9 +128,14 @@ const [coordinates, setCoordinates] = useState(null);
             console.log(res.data);
 
 
-            navigate(
-                `/payment/${res.data.id}`
-            );
+           navigate(
+    `/payment/${res.data.id}`,
+    {
+        state: {
+            amount: room.rent
+        }
+    }
+);
 
 
         }
